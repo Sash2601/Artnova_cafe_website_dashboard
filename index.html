@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7efe2">
+  <title>Artanova Cafe | Ordering & Owner Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Artanova Cafe home">
+        <span class="brand-mark">A</span>
+        <span><b>Artanova</b><small>CAFE · STUDIO · VR</small></span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-btn active" data-view="customer">Customer ordering</button>
+        <button class="nav-btn" data-view="owner">Owner dashboard</button>
+      </nav>
+      <div class="topbar-right"><span class="live-dot"></span><span>Demo store · Live sync</span></div>
+    </header>
+
+    <main>
+      <!-- CUSTOMER VIEW -->
+      <section id="customerView" class="view active">
+        <div class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">A LITTLE ART, A LITTLE COFFEE</p>
+            <h1>Your cozy corner<br><em>to create & play.</em></h1>
+            <p>Order your cafe favourites, book an art session or jump into a VR adventure.</p>
+            <a class="primary-link" href="#menu">Explore the menu <span>↘</span></a>
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <div class="sun-wash"></div><div class="hero-cup">☕</div>
+            <div class="paint-palette">🎨</div><span class="spark s1">✳</span><span class="spark s2">✦</span>
+            <span class="hero-note">sip · sketch · explore</span>
+          </div>
+        </div>
+
+        <div class="customer-layout">
+          <div class="customer-main">
+            <section id="menu" class="section-block">
+              <div class="section-heading"><div><p class="eyebrow">MADE WITH CARE</p><h2>Our menu</h2></div><span class="muted">Fresh picks for today</span></div>
+              <div id="menuGrid" class="menu-grid"></div>
+            </section>
+
+            <section class="section-block booking-section">
+              <div class="section-heading"><div><p class="eyebrow">MAKE SOMETHING</p><h2>Art studio passes</h2></div><span class="muted">Choose your session</span></div>
+              <div class="pass-grid">
+                <button class="pass-card" data-pass="30"><span class="pass-time">30 min</span><b>Quick sketch</b><small>₹199 · A creative break</small></button>
+                <button class="pass-card" data-pass="60"><span class="pass-time">60 min</span><b>Creative hour</b><small>₹349 · Make it yours</small></button>
+                <button class="pass-card" data-pass="120"><span class="pass-time">120 min</span><b>Deep dive</b><small>₹599 · Time to create</small></button>
+              </div>
+              <div class="booking-row">
+                <label>Session date <input type="date" id="bookingDate"></label>
+                <label>Start time <select id="bookingTime"><option>11:00 AM</option><option>12:00 PM</option><option>1:00 PM</option><option>2:00 PM</option><option>3:00 PM</option><option>4:00 PM</option><option>5:00 PM</option></select></label>
+                <button id="bookStudioBtn" class="button button-dark">Book studio</button>
+              </div>
+            </section>
+
+            <section class="section-block vr-section">
+              <div class="section-heading"><div><p class="eyebrow">STEP INTO ANOTHER WORLD</p><h2>VR game studio</h2></div><span class="muted">Limited slots available</span></div>
+              <div class="vr-grid">
+                <article class="vr-card"><div class="vr-visual vr-one">🚀</div><div><b>Space Adventure</b><small>Immersive sci-fi · ₹299</small><button class="text-button add-vr" data-game="Space Adventure" data-price="299">Add game +</button></div></article>
+                <article class="vr-card"><div class="vr-visual vr-two">🏎️</div><div><b>VR Racing</b><small>High-speed action · ₹249</small><button class="text-button add-vr" data-game="VR Racing" data-price="249">Add game +</button></div></article>
+                <article class="vr-card"><div class="vr-visual vr-three">🧟</div><div><b>Zombie Survival</b><small>Thriller horror · ₹349</small><button class="text-button add-vr" data-game="Zombie Survival" data-price="349">Add game +</button></div></article>
+              </div>
+            </section>
+          </div>
+
+          <aside class="cart-panel">
+            <div class="cart-title"><div><p class="eyebrow">YOUR SELECTION</p><h2>Your cart <span id="cartCount" class="count-pill">0</span></h2></div><span>🛍️</span></div>
+            <div id="cartItems" class="cart-items"><div class="empty-cart">Your cart is waiting for something lovely.</div></div>
+            <div class="cart-total"><span>Subtotal</span><b id="cartSubtotal">₹0</b></div>
+            <div class="cart-total small-total"><span>Taxes & fees (5%)</span><span id="cartTax">₹0</span></div>
+            <div class="cart-total grand-total"><span>Total</span><b id="cartTotal">₹0</b></div>
+            <label class="customer-label">Your name<input id="customerName" type="text" placeholder="e.g. Aditi Sharma" maxlength="50"></label>
+            <label class="customer-label">Order type<select id="orderType"><option value="Dine-in">Dine-in</option><option value="Takeaway">Takeaway</option></select></label>
+            <button id="checkoutBtn" class="button button-primary full-width">Place order · ₹0</button>
+            <p class="tiny-note">Demo checkout · No payment is collected.</p>
+          </aside>
+        </div>
+        <div id="toast" class="toast" role="status" aria-live="polite"></div>
+      </section>
+
+      <!-- OWNER VIEW -->
+      <section id="ownerView" class="view">
+        <div class="owner-heading">
+          <div><p class="eyebrow">YOUR BUSINESS AT A GLANCE</p><h1>Good afternoon, owner.</h1><p class="muted">Here’s what’s happening at Artanova Cafe today.</p></div>
+          <div class="owner-actions"><span class="date-chip" id="todayLabel"></span><button id="exportBtn" class="button button-outline">↓ Export orders CSV</button></div>
+        </div>
+
+        <div class="filter-row">
+          <div class="filter-tabs"><button class="filter-btn active" data-period="month">This month</button><button class="filter-btn" data-period="today">Today</button><button class="filter-btn" data-period="all">All time</button></div>
+          <span class="sync-label"><span class="live-dot"></span> Updates when customers order</span>
+        </div>
+
+        <div class="kpi-grid">
+          <article class="kpi-card kpi-feature"><div class="kpi-top"><span>Revenue</span><span class="kpi-icon">₹</span></div><strong id="kpiRevenue">₹0</strong><small id="revenueContext">Gross sales · selected period</small><div class="mini-trend">↗ <span id="revenueOrders">0 orders</span></div></article>
+          <article class="kpi-card"><div class="kpi-top"><span>Total orders</span><span class="kpi-icon">▤</span></div><strong id="kpiOrders">0</strong><small>Orders placed</small><div class="kpi-foot" id="ordersFoot">Across all channels</div></article>
+          <article class="kpi-card"><div class="kpi-top"><span>Customers</span><span class="kpi-icon">♙</span></div><strong id="kpiCustomers">0</strong><small>Unique customers</small><div class="kpi-foot">Based on customer names</div></article>
+          <article class="kpi-card"><div class="kpi-top"><span>Average order value</span><span class="kpi-icon">◈</span></div><strong id="kpiAov">₹0</strong><small>Revenue ÷ orders</small><div class="kpi-foot">Average basket size</div></article>
+          <article class="kpi-card"><div class="kpi-top"><span>Items sold</span><span class="kpi-icon">☕</span></div><strong id="kpiItems">0</strong><small>Menu units sold</small><div class="kpi-foot">Includes cafe, studio & VR</div></article>
+          <article class="kpi-card"><div class="kpi-top"><span>Low-stock items</span><span class="kpi-icon">!</span></div><strong id="kpiLowStock">0</strong><small>At or below reorder level</small><div class="kpi-foot" id="stockFoot">Inventory monitoring</div></article>
+        </div>
+
+        <div class="owner-grid">
+          <section class="panel revenue-panel">
+            <div class="panel-heading"><div><p class="eyebrow">SALES PERFORMANCE</p><h2>Revenue trend</h2></div><span class="panel-tag">INR · ₹</span></div>
+            <div class="chart-wrap"><canvas id="monthlyRevenueChart" aria-label="Revenue chart"></canvas></div>
+          </section>
+          <section class="panel category-panel">
+            <div class="panel-heading"><div><p class="eyebrow">WHAT SELLS</p><h2>Sales by category</h2></div></div>
+            <div class="category-chart-wrap"><canvas id="categoryChart"></canvas></div>
+            <div id="categoryLegend" class="category-legend"></div>
+          </section>
+        </div>
+
+        <div class="owner-grid second-grid">
+          <section class="panel inventory-panel">
+            <div class="panel-heading"><div><p class="eyebrow">STOCK CONTROL</p><h2>Live inventory</h2><p class="muted panel-subtitle">Stock decreases automatically as orders are placed.</p></div><button id="restockAllBtn" class="button button-outline button-small">Restock all</button></div>
+            <div id="inventoryList" class="inventory-list"></div>
+            <p class="inventory-footnote">Demo recipe logic: each product consumes the ingredients listed in the app's JavaScript. Restock controls simulate a stock delivery.</p>
+          </section>
+          <section class="panel occupancy-panel">
+            <div class="panel-heading"><div><p class="eyebrow">EXPERIENCES</p><h2>Studio & VR occupancy</h2></div></div>
+            <div class="occupancy-summary"><div><strong id="studioBookings">0</strong><span>Studio bookings</span></div><div><strong id="vrBookings">0</strong><span>VR game orders</span></div></div>
+            <div class="occupancy-track"><div class="occupancy-fill" id="occupancyFill"></div></div>
+            <div class="occupancy-labels"><span id="occupancyText">0 / 10 slots booked</span><span>Daily capacity</span></div>
+            <div class="divider"></div>
+            <div class="mini-stat"><span>Most popular experience</span><b id="popularExperience">—</b></div>
+            <div class="mini-stat"><span>Bookings today</span><b id="todayBookings">0</b></div>
+          </section>
+        </div>
+
+        <div class="owner-grid third-grid">
+          <section class="panel orders-panel">
+            <div class="panel-heading"><div><p class="eyebrow">CUSTOMER ACTIVITY</p><h2>Recent orders</h2></div><span id="orderCountLabel" class="panel-tag">0 TOTAL</span></div>
+            <div class="table-scroll"><table><thead><tr><th>Order</th><th>Customer</th><th>Items</th><th>Type</th><th>Total</th><th>Status</th></tr></thead><tbody id="ordersTable"><tr><td colspan="6" class="empty-table">No orders yet. Place a test order from the customer page.</td></tr></tbody></table></div>
+          </section>
+          <section class="panel feedback-panel">
+            <div class="panel-heading"><div><p class="eyebrow">CUSTOMER EXPERIENCE</p><h2>Feedback snapshot</h2></div></div>
+            <div class="feedback-score"><span>😊</span><div><strong id="satisfactionScore">96%</strong><small>Demo satisfaction score</small></div></div>
+            <div class="feedback-bars"><div><span>Positive</span><div class="bar-bg"><i style="width:68%"></i></div><b>68%</b></div><div><span>Neutral</span><div class="bar-bg"><i style="width:22%"></i></div><b>22%</b></div><div><span>Negative</span><div class="bar-bg"><i style="width:10%"></i></div><b>10%</b></div></div>
+            <div class="review-quote">“Love the cozy atmosphere and the coffee!”<small>— Sample customer review</small></div>
+          </section>
+        </div>
+        <div class="owner-footer"><span>Artanova Cafe · Owner workspace</span><span>All figures are demo data until connected to a backend.</span></div>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
